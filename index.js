@@ -1,5 +1,6 @@
 // Set initial count
 let count = 0;
+const MAX_LIMIT=10;
 
 // Select the value and buttons
 const value = document.querySelector("#value");
