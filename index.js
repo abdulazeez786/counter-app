@@ -1,21 +1,28 @@
+// Set initial count
 let count = 0;
 
-const countDisplay = document.getElementById("count");
-const increaseBtn = document.getElementById("increase");
-const decreaseBtn = document.getElementById("decrease");
-const resetBtn = document.getElementById("reset");
+// Select the value and buttons
+const value = document.querySelector("#value");
+const btns = document.querySelectorAll(".btn");
 
-increaseBtn.addEventListener("click", () => {
-    count++;
-    countDisplay.textContent = count;
-});
+btns.forEach(function (btn) {
+    btn.addEventListener("click", function (e) {
+        const styles = e.currentTarget.classList;
 
-decreaseBtn.addEventListener("click", () => {
-    count--;
-    countDisplay.textContent = count;
-});
+        // Logic for each button
+        if (styles.contains("decrease")) {
+            count--;
+        } else if (styles.contains("increase")) {
+            count++;
+        } else {
+            count = 0;
+        }
 
-resetBtn.addEventListener("click", () => {
-    count = 0;
-    countDisplay.textContent = count;
+        // Change color based on number
+        if (count > 0) value.style.color = "green";
+        if (count < 0) value.style.color = "red";
+        if (count === 0) value.style.color = "#222";
+
+        value.textContent = count;
+    });
 });
