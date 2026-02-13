@@ -1,38 +1,47 @@
-// Set initial count
 let count = 0;
 
-// Select the value and buttons
 const value = document.querySelector("#value");
-const btns = document.querySelectorAll(".btn");
+const btnIncrease = document.querySelector(".increase");
+const btnDecrease = document.querySelector(".decrease");
+const btnReset = document.querySelector(".reset");
 
-btns.forEach(function (btn) {
-    btn.addEventListener("click", function (e) {
-        const styles = e.currentTarget.classList;
+// Function to update the display and check limits
+function updateDisplay() {
+    value.textContent = count;
 
-        // Logic for each button
-        if (styles.contains("decrease")) {
-            count--;
-        } else if (styles.contains("increase")) {
-            // Only increase if count is less than 10
-            if (count < 10) {
-                count++;
-            } else {
-                alert("Maximum limit of 10 reached!");
-            }
-        } else {
-            count = 0;
-        }
+    // 1. Handle Colors
+    if (count > 0) value.style.color = "green";
+    if (count < 0) value.style.color = "red";
+    if (count === 0) value.style.color = "#222";
 
-        // Visual feedback
-        if (count > 0) value.style.color = "green";
-        if (count < 0) value.style.color = "red";
-        if (count === 0) value.style.color = "#222";
-
-        // If it hits 10, maybe make it bold and gold?
-        if (count === 10) {
-            value.style.color = "orange";
-        }
-
+    // 2. The Stop Logic (The Lock)
+    if (count >= 10) {
+        count = 10; // Force it to stay at 10
         value.textContent = count;
-    });
+        value.style.color = "orange";
+        btnIncrease.disabled = true; // Physically disable the button
+        btnIncrease.style.opacity = "0.5";
+        btnIncrease.style.cursor = "not-allowed";
+    } else {
+        // Re-enable if we are below 10
+        btnIncrease.disabled = false;
+        btnIncrease.style.opacity = "1";
+        btnIncrease.style.cursor = "pointer";
+    }
+}
+
+// Event Listeners
+btnIncrease.addEventListener("click", () => {
+    count++;
+    updateDisplay();
+});
+
+btnDecrease.addEventListener("click", () => {
+    count--;
+    updateDisplay();
+});
+
+btnReset.addEventListener("click", () => {
+    count = 0;
+    updateDisplay();
 });
